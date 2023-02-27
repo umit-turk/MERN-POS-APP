@@ -64,38 +64,38 @@ const PrintBill = ({ setModalOpen, isModalOpen }) => {
                     <tr>
                       <th
                         scope="col"
-                        className="py-3.5 text-left text-sm font-normal text-slate-700  md:pl-0 sm:table-cell hidden"
+                        className="py-3.5 text-left text-sm font-normal text-slate-700 md:pl-0 sm:table-cell hidden"
                       >
                         Visual
                       </th>
                       <th
                         scope="col"
-                        className="w-full py-3.5 sm:text-center text-left text-sm font-normal text-slate-700  md:pl-0  sm:hidden"
+                        className="py-3.5 text-left text-sm font-normal text-slate-700 md:pl-0 sm:table-cell hidden"
                       >
                         Title
                       </th>
                       <th
-                      colSpan={4}
+                        colSpan={4}
                         scope="col"
-                        className="w-full py-3.5 sm:text-center text-left text-sm font-normal text-slate-700  md:pl-0"
+                        className="py-3.5 text-left text-sm font-normal text-slate-700 md:pl-0 sm:hidden"
                       >
                         Title
                       </th>
                       <th
                         scope="col"
-                        className="py-3.5 text-center text-sm font-normal text-slate-700  md:pl-0 sm:table-cell hidden"
+                        className="py-3.5 text-center text-sm font-normal text-slate-700 md:pl-0 sm:table-cell hidden"
                       >
                         Price
                       </th>
                       <th
                         scope="col"
-                        className="py-3.5 text-center text-sm font-normal text-slate-700  md:pl-0 sm:table-cell hidden"
+                        className="py-3.5 text-center text-sm font-normal text-slate-700 md:pl-0 sm:table-cell hidden"
                       >
                         Number
                       </th>
                       <th
                         scope="col"
-                        className="py-3.5 text-right text-sm font-normal text-slate-700  md:pl-0"
+                        className="py-3.5 text-end text-sm font-normal text-slate-700 md:pl-0"
                       >
                         Total
                       </th>
@@ -110,10 +110,20 @@ const PrintBill = ({ setModalOpen, isModalOpen }) => {
                           className="w-12 h-12 object-cover"
                         />
                       </td>
-                      <td className="py-4 sm:text-center text-left">
+                      <td className="py-4 sm:table-cell hidden">
                         <div className="flex flex-col">
-                        <span className="font-medium">Sample 1</span>
-                        <span className="sm:hidden inline-block text-xs">Unit Price 5₺</span>
+                          <span className="font-medium">Sample 1</span>
+                          <span className="sm:hidden inline-block text-xs">
+                            Unit Price 5₺
+                          </span>
+                        </div>
+                      </td>
+                      <td className="py-4 sm:hidden" colSpan={4}>
+                        <div className="flex flex-col">
+                          <span className="font-medium">Şalgam</span>
+                          <span className="sm:hidden inline-block text-xs">
+                            Unit Price 5₺
+                          </span>
                         </div>
                       </td>
                       <td className="py-4 text-center sm:table-cell hidden">
@@ -126,62 +136,92 @@ const PrintBill = ({ setModalOpen, isModalOpen }) => {
                         <span>100₺</span>
                       </td>
                     </tr>
-                    
                   </tbody>
                   <tfoot>
                     <tr>
-                      <th colSpan={4} scope="row" className="text-right pt-4 sm:table-cell hidden">
+                      <th
+                        className="text-right pt-4 sm:table-cell hidden"
+                        colSpan="4"
+                        scope="row"
+                      >
                         <span className="font-normal text-slate-600">
                           Sub Total
                         </span>
                       </th>
-                      <th  colSpan={4}  scope="row" className="text-left pt-4 sm:hidden">
-                        <p className="font-normal text-slate-600">
-                          Sub Total
-                        </p>
+                      <th
+                        className="text-left pt-4 sm:hidden"
+                        scope="row"
+                        colSpan="4"
+                      >
+                        <p className="font-normal text-slate-700">Sub Total</p>
                       </th>
                       <th scope="row" className="text-right pt-4">
                         <span className="font-normal text-slate-600">60₺</span>
                       </th>
                     </tr>
                     <tr>
-                      <th colSpan={4} scope="row" className="text-right pt-4">
-                        <span className="font-normal text-slate-600">Vat</span>
+                      <th
+                        className="text-right pt-4 sm:table-cell hidden"
+                        colSpan="4"
+                        scope="row"
+                      >
+                        <span className="font-normal text-slate-700">Vat</span>
                       </th>
-                      <th scope="row" className="text-right pt-4">
-                        <span className="font-normal text-red-600">+4.80₺</span>
+                      <th
+                        className="text-left pt-4 sm:hidden"
+                        scope="row"
+                        colSpan="4"
+                      >
+                        <p className="font-normal text-slate-700">Vat</p>
+                      </th>
+                      <th className="text-right pt-4" scope="row">
+                        <span className="font-normal text-red-600">+4.88₺</span>
                       </th>
                     </tr>
                     <tr>
-                      <th colSpan={4} scope="row" className="text-right pt-4">
-                        <span className="font-normal text-slate-600">
+                      <th
+                        className="text-right pt-4 sm:table-cell hidden"
+                        colSpan="4"
+                        scope="row"
+                      >
+                        <span className="font-normal text-slate-700">
                           Total
                         </span>
                       </th>
-                      <th scope="row" className="text-right pt-4">
-                        <span className="font-normal text-slate-600">55₺</span>
+                      <th
+                        className="text-left pt-4 sm:hidden"
+                        scope="row"
+                        colSpan="4"
+                      >
+                        <p className="font-normal text-slate-700">Total</p>
+                      </th>
+                      <th className="text-right pt-4" scope="row">
+                        <span className="font-normal text-slate-700">
+                          65.88₺
+                        </span>
                       </th>
                     </tr>
                   </tfoot>
                 </table>
                 <div className="py-9">
                   <div className="border-t pt-9 border-slate-200">
-                  <p className="text-sm font-light text-slate-700">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    Esse repellendus quis consequatur fugiat nihil, suscipit
-                    officiis ipsum optio officia voluptates inventore laboriosam
-                    debitis voluptas soluta asperiores accusamus incidunt
-                    nesciunt velit culpa? Temporibus ullam deleniti placeat,
-                    inventore ab eos atque at soluta similique, amet porro.
-                    Repudiandae, deleniti enim ipsam inventore ut alias illo
-                    repellendus, quo consectetur eaque ratione ullam laboriosam
-                    nam eum vitae voluptatibus exercitationem iusto. Consequatur
-                    minus voluptatum maiores sunt sint deleniti culpa ratione
-                    neque esse quisquam corrupti quam a ullam laboriosam quae
-                    aperiam, incidunt dolorem. Exercitationem atque sit
-                    praesentium voluptatibus assumenda? Dolores autem recusandae
-                    totam ullam, pariatur qui ea?
-                  </p>
+                    <p className="text-sm font-light text-slate-700">
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                      Esse repellendus quis consequatur fugiat nihil, suscipit
+                      officiis ipsum optio officia voluptates inventore
+                      laboriosam debitis voluptas soluta asperiores accusamus
+                      incidunt nesciunt velit culpa? Temporibus ullam deleniti
+                      placeat, inventore ab eos atque at soluta similique, amet
+                      porro. Repudiandae, deleniti enim ipsam inventore ut alias
+                      illo repellendus, quo consectetur eaque ratione ullam
+                      laboriosam nam eum vitae voluptatibus exercitationem
+                      iusto. Consequatur minus voluptatum maiores sunt sint
+                      deleniti culpa ratione neque esse quisquam corrupti quam a
+                      ullam laboriosam quae aperiam, incidunt dolorem.
+                      Exercitationem atque sit praesentium voluptatibus
+                      assumenda? Dolores autem recusandae totam ullam, pariatur
+                      qui ea?
+                    </p>
                   </div>
                 </div>
               </div>
@@ -189,7 +229,9 @@ const PrintBill = ({ setModalOpen, isModalOpen }) => {
           </div>
         </section>
         <div className="flex justify-end mt-4">
-          <Button type="primary" size="large">Print</Button>
+          <Button type="primary" size="large">
+            Print
+          </Button>
         </div>
       </Modal>
     </>
