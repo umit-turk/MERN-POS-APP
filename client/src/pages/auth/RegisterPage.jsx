@@ -37,9 +37,22 @@ const RegisterPage = () => {
             </Form.Item>
             <Form.Item
               label="Retype password"
+              dependencies={["password"]}
               name={"passwordAgain"}
               rules={[
                 { required: true, message: "You have to retype password" },
+                ({ getFieldValue }) => ({
+                  validator(_, value) {
+                    if (!value || getFieldValue("password") === value) {
+                      return Promise.resolve();
+                    }
+                    return Promise.reject(
+                      new Error(
+                        "The two passwords that you entered do not match!"
+                      )
+                    );
+                  },
+                }),
               ]}
             >
               <Input.Password />
