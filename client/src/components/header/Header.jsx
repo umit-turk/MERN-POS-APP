@@ -59,7 +59,7 @@ const Header = () => {
             <span className="text-[10px] md:text-xs">Customers</span>
           </Link>
           <Link
-            to={"/"}
+            to={"/statistic"}
             className="menu-link flex flex-col transition-all hover:text-[#40a9ff]"
           >
             <BarChartOutlined className="md:text-2xl text-xl" />
