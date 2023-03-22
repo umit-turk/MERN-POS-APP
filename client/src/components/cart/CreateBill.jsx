@@ -2,7 +2,6 @@ import { Button, Card, Form, Input, Modal, Select } from "antd";
 
 const CreateBill = ({ setModalOpen, isModalOpen }) => {
   const onFinish = (values) => {
-    console.log(values);
   };
   return (
     <>
