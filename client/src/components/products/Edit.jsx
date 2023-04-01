@@ -6,7 +6,7 @@ const Edit = () => {
   const [categories, setCategories] = useState([]);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState({});
-  
+
   const [form] = Form.useForm();
   useEffect(() => {
     getProducts();
@@ -27,9 +27,12 @@ const Edit = () => {
     try {
       const res = await fetch("http://localhost:5000/api/categories/get-all");
       const data = await res.json();
-      data && setCategories(data.map((item) => {
-        return {...item, value:item.title}
-      }));
+      data &&
+        setCategories(
+          data.map((item) => {
+            return { ...item, value: item.title };
+          })
+        );
     } catch (error) {
       console.log(error);
     }
@@ -39,13 +42,13 @@ const Edit = () => {
     try {
       fetch("http://localhost:5000/api/products/update-product", {
         method: "PUT",
-        body: JSON.stringify({ ...values, productId:editingItem._id }),
+        body: JSON.stringify({ ...values, productId: editingItem._id }),
         headers: { "Content-type": "application/json; charset=UTF-8" },
       });
       message.success("Product updated successfully");
       setProducts((prev) =>
         prev.map((item) => {
-        return item._id === editingItem._id ? values : item
+          return item._id === editingItem._id ? values : item;
         })
       );
     } catch (error) {
@@ -109,7 +112,7 @@ const Edit = () => {
           <div>
             <Button
               onClick={() => {
-                setIsEditModalOpen(true)
+                setIsEditModalOpen(true);
                 setEditingItem(record);
               }}
               type="link"
@@ -148,7 +151,12 @@ const Edit = () => {
         onCancel={() => setIsEditModalOpen(false)}
         footer={false}
       >
-        <Form form={form} onFinish={onFinish} initialValues={editingItem} layout="vertical">
+        <Form
+          form={form}
+          onFinish={onFinish}
+          initialValues={editingItem}
+          layout="vertical"
+        >
           <Form.Item
             label="Add Product"
             name="title"
