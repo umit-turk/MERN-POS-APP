@@ -43,4 +43,22 @@ router.delete("/delete-product",async (req, res) => {
     }
 })
 
+//search product element
+router.get('/search', async (req, res) => {
+    try {
+      const category = req.query.category;
+      const query = req.query.q;
+      let regex = new RegExp(query.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'), 'i');
+      let products;
+      if (category === 'All') {
+        products = await Product.find({ title: regex });
+      } else {
+        products = await Product.find({ category: category, title: regex });
+      }
+      res.status(200).json(products);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  });
+
 module.exports = router;

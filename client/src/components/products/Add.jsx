@@ -20,7 +20,7 @@ const Add = ({
       if (!response.ok) {
         throw new Error("HTTP error " + response.status);
       }
-      message.success("Category added successfully");
+      message.success("Product added successfully");
       form.resetFields();
       setProducts([
         ...products,

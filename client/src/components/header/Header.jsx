@@ -12,14 +12,30 @@ import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import "./index.css";
 
-const Header = () => {
+const Header = ({ setFiltered, categoryTitle}) => {
   const cart = useSelector((state) => state.cart);
   const navigate = useNavigate();
   const logOut = () => {
     if (window.confirm("Do you want to log out? Are you sure?")) {
       localStorage.removeItem("posUser");
-      message.success("Logout successful")
+      message.success("Logout successful");
       navigate("/login");
+    }
+  };
+
+  const search = async (title) => {
+    console.log(categoryTitle)
+    try {
+      const res = await fetch(
+        `http://localhost:5000/api/products/search?q=${title}&category=${categoryTitle}`
+      );
+      const data = await res.json();
+      console.log(data)
+      if (res.status === 200) {
+        setFiltered(data);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -37,6 +53,7 @@ const Header = () => {
             placeholder="Search..."
             prefix={<SearchOutlined />}
             className="rounded-full max-w-[800px]"
+            onChange={(e) => search(e.target.value.toLocaleLowerCase())}
           />
         </div>
         <div className="menu-links ">
