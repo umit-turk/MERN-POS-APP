@@ -10,6 +10,7 @@ import {
 import { Badge, Input } from "antd";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import "./index.css"
 
 const Header = () => {
   const cart = useSelector((state) => state.cart)
@@ -29,18 +30,18 @@ const Header = () => {
             className="rounded-full max-w-[800px]"
           />
         </div>
-        <div className="menu-links flex justify-between items-center gap-7 md:static fixed z-50 bottom-0 md:w-auto w-screen md:bg-transparent bg-white left-0 md:border-t-0 border-t md:px-0 px-4 py-1">
+        <div className="menu-links ">
           <Link
             to={"/"}
-            className="menu-link flex flex-col transition-all hover:text-[#40a9ff]"
+            className="menu-link "
           >
             <HomeOutlined className="md:text-2xl text-xl" />
             <span className="text-[10px] md:text-xs">Home</span>
           </Link>
-          <Badge count={cart.cartItems.length} offset={[0, 6]} className="md:flex hidden">
+          <Badge count={cart.cartItems.length} offset={[0, 0]} className="md:flex hidden">
             <Link
               to={"/cart"}
-              className="menu-link flex flex-col transition-all hover:text-[#40a9ff]"
+              className="menu-link "
             >
               <ShoppingCartOutlined className="md:text-2xl text-xl" />
               <span className="text-[10px] md:text-xs">Cart</span>
@@ -48,37 +49,37 @@ const Header = () => {
           </Badge>
           <Link
             to={"/invoices"}
-            className="menu-link flex flex-col transition-all hover:text-[#40a9ff]"
+            className="menu-link "
           >
             <CopyOutlined className="md:text-2xl text-xl" />
             <span className="text-[10px] md:text-xs">Invoices</span>
           </Link>
           <Link
             to={"/customers"}
-            className="menu-link flex flex-col transition-all hover:text-[#40a9ff]"
+            className="menu-link "
           >
             <UserOutlined className="md:text-2xl text-xl" />
             <span className="text-[10px] md:text-xs">Customers</span>
           </Link>
           <Link
             to={"/statistic"}
-            className="menu-link flex flex-col transition-all hover:text-[#40a9ff]"
+            className="menu-link "
           >
             <BarChartOutlined className="md:text-2xl text-xl" />
             <span className="text-[10px] md:text-xs">Statistics</span>
           </Link>
           <Link
             to={"/"}
-            className="menu-link flex flex-col transition-all hover:text-[#40a9ff]"
+            className="menu-link "
           >
             <LogoutOutlined className="md:text-2xl text-xl" />
             <span className="text-[10px] md:text-xs">Logout</span>
           </Link>
         </div>
-        <Badge count={5} offset={[0, 6]} className="md:hidden flex">
+        <Badge count={cart.cartItems.length} offset={[0, 0]} className="md:hidden flex">
           <Link
             to={"/"}
-            className="menu-link flex flex-col transition-all hover:text-[#40a9ff]"
+            className="menu-link "
           >
             <ShoppingCartOutlined className="text-2xl" />
             <span className="text-[10px] md:text-xs">Cart</span>

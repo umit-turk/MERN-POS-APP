@@ -6,8 +6,10 @@ import {
 } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { clearCart, decrease, deleteCart, increase } from "../../redux/cartSlice";
+import { useNavigate } from "react-router-dom";
 
 const CartTotals = () => {
+  const navigate = useNavigate()
   const dispatch = useDispatch();
   const [messageApi, contextHolder] = message.useMessage();
   const { cartItems, total, tax } = useSelector((state) => state.cart);
@@ -75,7 +77,7 @@ const CartTotals = () => {
                   />
                 </div>
               </li>
-            ))
+            )).reverse()
           : "There are no items in the cart"}
       </ul>
       <div className="cart-totals mt-auto">
@@ -98,7 +100,7 @@ const CartTotals = () => {
           </div>
         </div>
         <div className="py-4 px-2">
-          <Button disabled={cartItems.length === 0} className="w-full" type="primary" size="large">
+          <Button onClick={() =>navigate("/cart")} disabled={cartItems.length === 0} className="w-full" type="primary" size="large">
             Order
           </Button>
           <Button

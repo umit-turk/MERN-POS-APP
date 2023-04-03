@@ -1,7 +1,37 @@
-import { Button, Card, Form, Input, Modal, Select } from "antd";
+import { Button, Card, Form, Input, Modal, Select, message } from "antd";
+import {useSelector, useDispatch} from 'react-redux'
+import { clearCart } from "../../redux/cartSlice";
+import { useNavigate } from "react-router-dom";
 
 const CreateBill = ({ setModalOpen, isModalOpen }) => {
-  const onFinish = (values) => {
+
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const {cartItems, total, tax} = useSelector((state) => state.cart)
+
+  const onFinish = async (values) => {
+    try {
+    const res = await fetch("http://localhost:5000/api/invoices/add-invoice",{
+        method:"POST",
+        body: JSON.stringify({
+          ...values,
+          subTotal:total,
+          tax:tax,
+          total:(total + (total * tax) / 100).toFixed(2),
+          cartItems:cartItems,
+        }),
+        headers: { "Content-type": "application/json; charset=UTF-8" },
+      })
+      if(res.status === 200){
+        message.success("Invoice created successfully")
+        dispatch(clearCart())
+        navigate("/invoices")
+      }
+    } catch (error) {
+      message.error("Invoice has not created")
+      console.log(error);
+    }
   };
   return (
     <>
@@ -22,7 +52,7 @@ const CreateBill = ({ setModalOpen, isModalOpen }) => {
             <Input placeholder="Please enter a customer name" />
           </Form.Item>
           <Form.Item
-            name={"phoneNumber"}
+            name={"customerPhoneNumber"}
             rules={[
               { required: true, message: "You must enter a phone number" },
             ]}
@@ -31,7 +61,7 @@ const CreateBill = ({ setModalOpen, isModalOpen }) => {
             <Input placeholder="Please enter a phone number" maxLength={"11"} />
           </Form.Item>
           <Form.Item
-            name={"paymentMethod"}
+            name={"paymentMode"}
             rules={[
               { required: true, message: "You must select a payment method" },
             ]}
@@ -45,18 +75,18 @@ const CreateBill = ({ setModalOpen, isModalOpen }) => {
           <Card bordered={false}>
             <div className="flex justify-between">
               <span>Sub Total</span>
-              <span>549.00₺</span>
+              <span>{(total).toFixed(2)}₺</span>
             </div>
             <div className="flex justify-between my-2">
               <span>VAT %8</span>
-              <span className="text-red-600">43.92₺</span>
+              <span className="text-red-600">{(total * tax) / 100}₺</span>
             </div>
             <div className="flex justify-between">
               <b>Total</b>
-              <b>549.00₺</b>
+              <b>{(total + (total * tax) / 100).toFixed(2)}₺</b>
             </div>
             <div className="flex justify-end">
-              <Button className="mt-4" type="primary" htmlType="submit">
+              <Button  className="mt-4" type="primary" htmlType="submit">
                 Order
               </Button>
             </div>
