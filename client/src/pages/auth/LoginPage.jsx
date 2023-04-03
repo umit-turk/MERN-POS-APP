@@ -1,15 +1,64 @@
-import { Button, Carousel, Checkbox, Form, Input } from "antd";
-import React from "react";
-import { Link } from "react-router-dom";
+import { Button, Carousel, Checkbox, Form, Input, message } from "antd";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import AuthCarousel from "../../components/auth/AuthCarousel";
 
 const LoginPage = () => {
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
+  const onFinish = async (values) => {
+    setLoading(true);
+  
+    try {
+      const res = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        body: JSON.stringify(values),
+        headers: { "Content-type": "application/json; charset=UTF-8" },
+      });
+
+      const user = await res.json()
+      console.log(user);
+  
+      let messageText = "";
+      switch (res.status) {
+        case 200:
+          localStorage.setItem("posUser", JSON.stringify({
+            username:user.username,
+            email:user.email
+          }))
+          navigate("/");
+          break;
+        case 404:
+          messageText = "User not found!";
+          break;
+        case 403:
+          messageText = "Password is not correct!";
+          break;
+        default:
+          messageText = "There are some errors";
+          break;
+      }
+  
+      if (messageText) {
+        message.error(messageText);
+      } else {
+        message.success("Login successful");
+      }
+  
+    } catch (error) {
+      message.error("There are some errors");
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="h-screen">
       <div className="flex justify-between h-full">
         <div className="xl:px-20 w-full px-10 flex flex-col h-full justify-center relative">
           <h1 className="text-center text-5xl font-bold mb-2">LOGO</h1>
-          <Form layout="vertical">
+          <Form initialValues={{remember:false}} onFinish={onFinish} layout="vertical">
             <Form.Item
               label="E-mail"
               name={"email"}
@@ -38,6 +87,7 @@ const LoginPage = () => {
                 htmlType="submit"
                 className="w-full"
                 size="large"
+                loading={loading}
               >
                 Login
               </Button>
