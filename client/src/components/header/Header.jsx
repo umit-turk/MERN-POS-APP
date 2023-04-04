@@ -9,11 +9,12 @@ import {
 } from "@ant-design/icons";
 import { Badge, Input, message } from "antd";
 import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./index.css";
 
-const Header = ({ setFiltered, categoryTitle}) => {
+const Header = ({ setFiltered, categoryTitle }) => {
   const cart = useSelector((state) => state.cart);
+  const { pathname } = useLocation();
   const navigate = useNavigate();
   const logOut = () => {
     if (window.confirm("Do you want to log out? Are you sure?")) {
@@ -24,13 +25,11 @@ const Header = ({ setFiltered, categoryTitle}) => {
   };
 
   const search = async (title) => {
-    console.log(categoryTitle)
     try {
       const res = await fetch(
         `http://localhost:5000/api/products/search?q=${title}&category=${categoryTitle}`
       );
       const data = await res.json();
-      console.log(data)
       if (res.status === 200) {
         setFiltered(data);
       }
@@ -47,7 +46,12 @@ const Header = ({ setFiltered, categoryTitle}) => {
             <h2 className="text-2xl font-bold md:text-4xl">LOGO</h2>
           </Link>
         </div>
-        <div className="header-search flex-1 flex justify-center">
+        <div
+          onClick={() => {
+            pathname !== "/" && navigate("/");
+          }}
+          className="header-search flex-1 flex justify-center"
+        >
           <Input
             size="large"
             placeholder="Search..."
