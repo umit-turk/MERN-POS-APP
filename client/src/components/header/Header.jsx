@@ -61,45 +61,45 @@ const Header = ({ setFiltered, categoryTitle }) => {
           />
         </div>
         <div className="menu-links ">
-          <Link to={"/"} className="menu-link ">
+          <Link to={"/"} className={`menu-link ${pathname === "/" && "active"}`}>
             <HomeOutlined className="md:text-2xl text-xl" />
             <span className="text-[10px] md:text-xs">Home</span>
           </Link>
           <Badge
-            count={cart.cartItems.length}
+            count={cart?.cartItems?.length}
             offset={[0, 0]}
             className="md:flex hidden"
           >
-            <Link to={"/cart"} className="menu-link ">
+            <Link to={"/cart"} className={`menu-link ${pathname === "/cart" && "active"}`}>
               <ShoppingCartOutlined className="md:text-2xl text-xl" />
               <span className="text-[10px] md:text-xs">Cart</span>
             </Link>
           </Badge>
-          <Link to={"/invoices"} className="menu-link ">
+          <Link to={"/invoices"} className={`menu-link ${pathname === "/invoices" && "active"}`}>
             <CopyOutlined className="md:text-2xl text-xl" />
             <span className="text-[10px] md:text-xs">Invoices</span>
           </Link>
-          <Link to={"/customers"} className="menu-link ">
+          <Link to={"/customers"} className={`menu-link ${pathname === "/customers" && "active"}`}>
             <UserOutlined className="md:text-2xl text-xl" />
             <span className="text-[10px] md:text-xs">Customers</span>
           </Link>
-          <Link to={"/statistic"} className="menu-link ">
+          <Link to={"/statistic"} className={`menu-link ${pathname === "/statistic" && "active"}`}>
             <BarChartOutlined className="md:text-2xl text-xl" />
             <span className="text-[10px] md:text-xs">Statistics</span>
           </Link>
           <div onClick={logOut}>
-            <Link className="menu-link ">
+            <Link className={`menu-link`}>
               <LogoutOutlined className="md:text-2xl text-xl" />
               <span className="text-[10px] md:text-xs">Logout</span>
             </Link>
           </div>
         </div>
         <Badge
-          count={cart.cartItems.length}
+          count={cart?.cartItems?.length}
           offset={[0, 0]}
           className="md:hidden flex"
         >
-          <Link to={"/"} className="menu-link ">
+          <Link to={"/cart"} className={`menu-link ${pathname === "/cart" && "active"}`}>
             <ShoppingCartOutlined className="text-2xl" />
             <span className="text-[10px] md:text-xs">Cart</span>
           </Link>

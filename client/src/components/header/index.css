@@ -4,3 +4,6 @@
 .menu-link {
   @apply flex flex-col transition-all hover:text-[#40a9ff] gap-y-1;
 }
+.menu-link.active {
+  @apply !text-[#40a9ff];
+}

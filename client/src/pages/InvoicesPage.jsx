@@ -1,17 +1,15 @@
-import { Button, Card, Input, Space, Table } from "antd";
+import { Button, Card, Input, Space, Spin, Table } from "antd";
 import Header from "../components/header/Header";
 import { useRef, useState } from "react";
 import PrintBill from "../components/bills/PrintBill";
 import { useEffect } from "react";
 import Highlighter from "react-highlight-words";
-import {
-  SearchOutlined,
-} from "@ant-design/icons";
+import { SearchOutlined } from "@ant-design/icons";
 
 const InvoicesPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [billItems, setBillItems] = useState([]);
-  const [customer, setCustomer] = useState()
+  const [billItems, setBillItems] = useState();
+  const [customer, setCustomer] = useState();
   const [searchedColumn, setSearchedColumn] = useState("");
   const [searchText, setSearchText] = useState("");
   const searchInput = useRef(null);
@@ -129,25 +127,23 @@ const InvoicesPage = () => {
       ),
   });
 
-  
-
   useEffect(() => {
-   getBills();
-  },[])
-  
+    getBills();
+  }, []);
+
   const getBills = async () => {
     try {
       const res = await fetch("http://localhost:5000/api/invoices/get-all");
       const data = await res.json();
       setBillItems(data);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   const setModalOpen = (record) => {
     setIsModalOpen((prev) => !prev);
-    setCustomer(record)
+    setCustomer(record);
   };
 
   const columns = [
@@ -155,34 +151,34 @@ const InvoicesPage = () => {
       title: "Customer Name",
       dataIndex: "customerName",
       key: "customerName",
-      ...getColumnSearchProps("customerName")
+      ...getColumnSearchProps("customerName"),
     },
     {
       title: "Phone number",
       dataIndex: "customerPhoneNumber",
       key: "customerPhoneNumber",
-      ...getColumnSearchProps("customerPhoneNumber")
+      ...getColumnSearchProps("customerPhoneNumber"),
     },
     {
       title: "Created Date",
       dataIndex: "createdAt",
       key: "createdAt",
       render: (date) => {
-        return <span>{date.substring(0,10)}</span>
-      }
+        return <span>{date.substring(0, 10)}</span>;
+      },
     },
     {
       title: "Payment Mode",
       dataIndex: "paymentMode",
       key: "paymentMode",
-      ...getColumnSearchProps("paymentMode")
+      ...getColumnSearchProps("paymentMode"),
     },
     {
       title: "Total",
       dataIndex: "total",
       key: "total",
       render: (price) => {
-        return <span>{price}₺</span>
+        return <span>{price}₺</span>;
       },
       sorter: (a, b) => a.total - b.total,
     },
@@ -190,33 +186,50 @@ const InvoicesPage = () => {
       title: "Actions",
       dataIndex: "action",
       key: "action",
-      render: (_,record) => {
-        return <Button type="link" className="pl-0" onClick={ () => {
-          setIsModalOpen((prev) => !prev);
-          setCustomer(record)
-        }} >Print</Button>
-      }
+      render: (_, record) => {
+        return (
+          <Button
+            type="link"
+            className="pl-0"
+            onClick={() => {
+              setIsModalOpen((prev) => !prev);
+              setCustomer(record);
+            }}
+          >
+            Print
+          </Button>
+        );
+      },
     },
   ];
   return (
     <>
       <Header />
-      <div className="px-6">
-        <h1 className="text-4xl font-bold text-center mb-4">Invoices</h1>
-        <Table
-          dataSource={billItems}
-          columns={columns}
-          bordered
-          pagination={false}
-          scroll={{
-            x:1000,
-            y:300
-          }}
-          rowKey={"_id"}
-        />
-      </div>
+      <h1 className="text-4xl font-bold text-center mb-4">Invoices</h1>
+      {billItems ? (
+        <div className="px-6">
+          <Table
+            dataSource={billItems}
+            columns={columns}
+            bordered
+            pagination={false}
+            scroll={{
+              x: 1000,
+              y: 300,
+            }}
+            rowKey={"_id"}
+          />
+        </div>
+      ) : (
+        <Spin size="large" className="absolute top-1/2 w-screen h-screen flex justify-center"  />
+      )}
+
       {/* Modal */}
-      <PrintBill customer={customer} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}  />
+      <PrintBill
+        customer={customer}
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+      />
       {/* Modal */}
     </>
   );

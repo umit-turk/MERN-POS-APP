@@ -1,13 +1,11 @@
-import { Button, Card, Input, Space, Table } from "antd";
+import { Button, Card, Input, Space, Spin, Table } from "antd";
 import Header from "../components/header/Header";
 import { useEffect, useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
-import {
-  SearchOutlined,
-} from "@ant-design/icons";
+import { SearchOutlined } from "@ant-design/icons";
 
 const CustomerPage = () => {
-  const [billItems, setBillItems] = useState([]);
+  const [billItems, setBillItems] = useState();
   const [searchedColumn, setSearchedColumn] = useState("");
   const [searchText, setSearchText] = useState("");
   const searchInput = useRef(null);
@@ -124,60 +122,67 @@ const CustomerPage = () => {
         text
       ),
   });
-  
+
   useEffect(() => {
     getBills();
-   },[])
-   
-   const getBills = async () => {
-     try {
-       const res = await fetch("http://localhost:5000/api/invoices/get-all");
-       const data = await res.json();
-       setBillItems(data);
-     } catch (error) {
-       console.log(error)
-     }
-   }
+  }, []);
+
+  const getBills = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/invoices/get-all");
+      const data = await res.json();
+      setBillItems(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const columns = [
     {
       title: "Customer Name",
       dataIndex: "customerName",
       key: "customerName",
-      ...getColumnSearchProps("customerName")
+      ...getColumnSearchProps("customerName"),
     },
     {
       title: "Phone number",
       dataIndex: "customerPhoneNumber",
       key: "customerPhoneNumber",
-      ...getColumnSearchProps("customerPhoneNumber")
+      ...getColumnSearchProps("customerPhoneNumber"),
     },
     {
       title: "Created Date",
       dataIndex: "createdAt",
       key: "createdAt",
       render: (date) => {
-        return <span>{date.substring(0,10)}</span>
-      }
+        return <span>{date.substring(0, 10)}</span>;
+      },
     },
   ];
   return (
     <>
       <Header />
-      <div className="px-6">
-        <h1 className="text-4xl font-bold text-center mb-4">Customers</h1>
-        <Table
-          dataSource={billItems}
-          columns={columns}
-          bordered
-          pagination={false}
-          scroll={{
-            x:1000,
-            y:300
-          }}
-          rowKey={"_id"}
+      <h1 className="text-4xl font-bold text-center mb-4">Customers</h1>
+      {billItems ? (
+        <div className="px-6">
+          <Table
+            dataSource={billItems}
+            columns={columns}
+            bordered
+            pagination={false}
+            scroll={{
+              x: 1000,
+              y: 300,
+            }}
+            rowKey={"_id"}
+          />
+        </div>
+      ) : (
+        <Spin
+          size="large"
+          className="absolute top-1/2 w-screen h-screen flex justify-center"
         />
-      </div>
+      )}
     </>
   );
 };

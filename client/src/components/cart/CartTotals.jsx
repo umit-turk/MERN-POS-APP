@@ -32,7 +32,7 @@ const CartTotals = () => {
         Cart Products
       </h2>
       <ul className="cart-items px-2 flex flex-col gap-y-3 overflow-y-auto py-2">
-        {cartItems.length > 0
+        {cartItems?.length > 0
           ? cartItems.map((item, index) => (
               <li key={index} className="cart-item flex justify-between">
                 <div className="flex items-center">
@@ -100,7 +100,7 @@ const CartTotals = () => {
           </div>
         </div>
         <div className="py-4 px-2">
-          <Button onClick={() =>navigate("/cart")} disabled={cartItems.length === 0} className="w-full" type="primary" size="large">
+          <Button onClick={() =>navigate("/cart")} disabled={cartItems?.length === 0} className="w-full" type="primary" size="large">
             Order
           </Button>
           <Button
@@ -109,7 +109,7 @@ const CartTotals = () => {
             type="primary"
             danger
             size="large"
-            disabled={cartItems.length === 0}
+            disabled={cartItems?.length === 0}
             onClick={() => {
               if(window.confirm("Are you sure?")){
                 dispatch(clearCart())

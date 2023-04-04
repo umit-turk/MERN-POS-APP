@@ -2,22 +2,19 @@ import { useEffect, useState } from "react";
 import Header from "../components/header/Header";
 import StatisticCard from "../components/statistics/StatisticCard";
 import { Area, Pie } from "@ant-design/plots";
+import { Spin } from "antd";
 const StatisticPage = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState();
   const [products, setProducts] = useState([]);
   const user = JSON.parse(localStorage.getItem("posUser"));
-
-  console.log(user)
-
+  
   useEffect(() => {
     asyncFetch();
-    getProducts()
+    getProducts();
   }, []);
 
   const asyncFetch = () => {
-    fetch(
-      "http://localhost:5000/api/invoices/get-all"
-    )
+    fetch("http://localhost:5000/api/invoices/get-all")
       .then((response) => response.json())
       .then((json) => setData(json))
       .catch((error) => {
@@ -36,17 +33,17 @@ const StatisticPage = () => {
   };
 
   const config = {
-    data:data,
+    data: data,
     xField: "customerName",
     yField: "subTotal",
     xAxis: {
       range: [0, 1],
     },
   };
-  
+
   const config2 = {
     appendPadding: 10,
-    data:data,
+    data: data,
     angleField: "subTotal",
     colorField: "customerName",
     radius: 1,
@@ -82,52 +79,61 @@ const StatisticPage = () => {
   };
 
   const totalAmount = () => {
-    const amount = data.reduce((total, item) => item.total + total, 0)
-    return amount.toFixed(2)
-  }
+    const amount = data.reduce((total, item) => item.total + total, 0);
+    return amount.toFixed(2);
+  };
 
   return (
     <>
       <Header />
-      <div className="px-6 md:pb-0 pb-20">
-        <h1 className="text-4xl font-bold text-center mb-4">Statistics</h1>
-        <div className="statistic-section">
-          <h2 className="text-xl">
-            Welcome{" "}
-            <span className="text-green-700 font-bold text-xl">{user?.username}</span>
-          </h2>
-          <div className="statistic-cards grid xl:grid-cols-4 md:grid-cols-2 my-10 md:gap-10 gap-4">
-            <StatisticCard
-              title={"Total Customer"}
-              amount={data?.length}
-              img={"https://picsum.photos/200/300"}
-            />
-            <StatisticCard
-              title={"Total Earnings"}
-              amount={totalAmount()+"₺"}
-              img={"https://picsum.photos/201/300"}
-            />
-            <StatisticCard
-              title={"Sum of Sales"}
-              amount={data?.length}
-              img={"https://picsum.photos/202/300"}
-            />
-            <StatisticCard
-              title={"Total Product"}
-              amount={products?.length}
-              img={"https://picsum.photos/205/300"}
-            />
-          </div>
-          <div className="flex justify-between gap-10 lg:flex-row flex-col items-center">
-            <div className="lg:w-1/2 lg:h-80 h-72">
-            <Area {...config} />
+      <h1 className="text-4xl font-bold text-center mb-4">Statistics</h1>
+      {data ? (
+        <div className="px-6 md:pb-0 pb-20">
+          <div className="statistic-section">
+            <h2 className="text-xl">
+              Welcome{" "}
+              <span className="text-green-700 font-bold text-xl">
+                {user?.username}
+              </span>
+            </h2>
+            <div className="statistic-cards grid xl:grid-cols-4 md:grid-cols-2 my-10 md:gap-10 gap-4">
+              <StatisticCard
+                title={"Total Customer"}
+                amount={data?.length}
+                img={"https://picsum.photos/200/300"}
+              />
+              <StatisticCard
+                title={"Total Earnings"}
+                amount={totalAmount() + "₺"}
+                img={"https://picsum.photos/201/300"}
+              />
+              <StatisticCard
+                title={"Sum of Sales"}
+                amount={data?.length}
+                img={"https://picsum.photos/202/300"}
+              />
+              <StatisticCard
+                title={"Total Product"}
+                amount={products?.length}
+                img={"https://picsum.photos/205/300"}
+              />
             </div>
-            <div className="lg:w-1/2 lg:h-80 h-72">
-            <Pie {...config2} />
+            <div className="flex justify-between gap-10 lg:flex-row flex-col items-center">
+              <div className="lg:w-1/2 lg:h-80 h-72">
+                <Area {...config} />
+              </div>
+              <div className="lg:w-1/2 lg:h-80 h-72">
+                <Pie {...config2} />
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <Spin
+          size="large"
+          className="absolute top-1/2 w-screen h-screen flex justify-center"
+        />
+      )}
     </>
   );
 };
