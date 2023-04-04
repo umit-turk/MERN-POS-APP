@@ -133,7 +133,7 @@ const InvoicesPage = () => {
 
   const getBills = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/invoices/get-all");
+      const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/invoices/get-all`);
       const data = await res.json();
       setBillItems(data);
     } catch (error) {

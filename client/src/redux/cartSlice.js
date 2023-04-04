@@ -4,7 +4,6 @@ let cartItems = [];
 let total = 0;
 let cart = localStorage.getItem("cart");
 if(cart) {
-  console.log(localStorage.getItem("cart"))
   try {
     cartItems = JSON.parse(cart).cartItems
     total = JSON.parse(cart).total

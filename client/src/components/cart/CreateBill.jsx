@@ -12,7 +12,7 @@ const CreateBill = ({ setModalOpen, isModalOpen }) => {
 
   const onFinish = async (values) => {
     try {
-    const res = await fetch("http://localhost:5000/api/invoices/add-invoice",{
+    const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/invoices/add-invoice`,{
         method:"POST",
         body: JSON.stringify({
           ...values,

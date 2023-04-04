@@ -27,6 +27,9 @@ const Categories = ({ categories, setCategories,setFiltered, products, setCatego
 
   return (
     <ul className="flex md:flex-col gap-4 text-lg">
+      <li onClick={() => setCategoryTitle('All')} className={`category-item ${categoryTitle === "All" && "!bg-pink-700"}`}>
+        <span>All</span>
+      </li>
       {categories.map((item) => (
         <li onClick={() => setCategoryTitle(item?.title)} className={`category-item ${item?.title === categoryTitle && "!bg-pink-700"}`} key={item._id}>
           <span>{item.title}</span>
